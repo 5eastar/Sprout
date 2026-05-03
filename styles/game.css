@@ -1,0 +1,1284 @@
+.hidden { display: none !important; }
+
+/* Tile Compare — inner container for procedurally rendered CSS tiles */
+.tile-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.option-label-overlay {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 4px;
+    color: inherit;
+}
+
+@keyframes countdownPulse {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes finishedAppear {
+    0%   { transform: scale(0.5); opacity: 0; }
+    60%  { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+#reinforcer-countdown.pulse {
+    animation: countdownPulse 0.8s ease-out;
+}
+
+/* Prevent touch gestures from navigating/scrolling */
+* {
+    overscroll-behavior: none;
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+
+/* Full-screen override — game page only (base.css .container is for setup pages) */
+body {
+    overflow: hidden;
+    height: 100dvh;
+    align-items: stretch;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    border-radius: 0;
+}
+
+/* Layout */
+.game-container {
+    height: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative;
+}
+
+
+.screen {
+    width: 100%;
+    height: 100%;
+    display:grid;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+#start-screen {
+    text-align: center;
+    align-items: center;
+    padding: 25%;
+}
+
+#game-screen {
+    justify-content: flex-start;
+    padding: 4px;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Wait Mode overlay */
+#answer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(80, 80, 80, 0.3);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 16px;
+    pointer-events: none;
+}
+
+#answer-overlay span {
+    background: linear-gradient(135deg, #7474bf 0%, #348ac7 100%);
+    border-radius: 24px;
+}
+
+/* Top Bar with Counter and Sound */
+.game-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1vh;
+    gap: 12px;
+    width: 100%;
+    flex-shrink: 0;
+    height: auto;
+    padding: 4px 0;
+    position: relative;
+}
+/* Question Counter */
+.question-counter {
+    background: linear-gradient(135deg, #b53dd09f, #9a24f44d);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+    letter-spacing: 0.5px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    margin: 4px;
+}
+
+#end-screen {
+    text-align: center;
+    align-items: center;
+    padding: 20px 25%;
+    padding-top: 5vh;
+    overflow: visible;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+#end-screen h1 {
+    align-items: center;
+    margin-bottom: 5px;
+    background: linear-gradient(45deg, #FF6B9D, #C06FFF, #4D9FFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    justify-content: center;
+    font-size: 2.5rem!important;
+    z-index: 10;
+}
+
+/* Typography */
+#start-screen h1 {
+    align-items: center;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, #FF6B9D, #C06FFF, #4D9FFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: bounce 2s infinite;
+    display: flex;
+    justify-content: center;
+    font-size: 3.5rem!important;
+}
+
+/* Buttons */
+#start-screen .btn-primary:hover {
+    animation: none;
+    transform: scale(1.15);
+}
+
+.btn-primary {
+    padding: 14px 20px;
+    border-radius: 24px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 12px;
+    width: max-content;
+    margin: 0 auto;
+    outline: 1.5px solid rgba(255, 255, 255, 0.777);
+    outline-offset: -6px;
+}
+
+#start-screen .btn-primary,
+#end-screen .btn-primary:not(#try-again-btn) {
+    animation: tantalise 5s ease-in-out infinite;
+}
+
+/* Sound Button */
+.sound-btn {
+    background: linear-gradient(135deg, #f1da2cc3, #f17b2cc3);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: clamp(44px, 6vh, 56px);
+    height: clamp(44px, 6vh, 56px);
+    font-size: clamp(1.3rem, 2.5vh, 1.8rem);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+    padding: 5px;
+    position: absolute;
+    right: 20px;
+    left: auto;
+    top: 15px;
+}
+
+.sound-btn:hover {
+    box-shadow: 0 4px 24px #f1da2cd4;
+}
+
+.sound-btn:active {
+    box-shadow: 0 0 0 8px rgba(241, 218, 44, 0.3);
+}
+
+/* Teacher Button */
+.teacher-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    width: clamp(50px, 6vh, 60px);
+    height: clamp(50px, 6vh, 60px);
+    background: #b43dd0;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: clamp(1.2rem, 2.5vh, 1.5rem);
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    z-index: 1000;
+    margin: 5px;
+}
+
+.teacher-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Answer Mode Toggle Button */
+.toggle {
+    position: fixed;
+    bottom: 25px;
+    right: calc(20px + clamp(50px, 6vh, 60px) + 15px);
+    width: calc(var(--sz) * 4);
+    height: calc(var(--sz) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    --sz: 18px;
+    --c1: #51cf66;
+    --c2: #ff6b6b;
+    --c3: #474747;
+    --c4: #323232;
+}
+
+@property --c2 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #ff6b6b;
+}
+
+.toggle input {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+}
+
+.toggle label[for=btn] {
+    position: absolute;
+    width: calc(var(--sz) * 4);
+    height: calc(var(--sz) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.toggle label[for=btn]:before {
+    content: "";
+    position: absolute;
+    width: calc(var(--sz) * 3);
+    height: calc(var(--sz) * 0.25);
+    background: var(--c3);
+    border-radius: var(--sz);
+}
+
+.toggle .thumb {
+    position: absolute;
+    width: calc(calc(var(--sz) * 2) - calc(var(--sz) / 8));
+    height: calc(calc(var(--sz) * 2) - calc(var(--sz) / 8));
+    top: calc(calc(var(--sz) / 10) + calc(var(--sz) / -20));
+    left: calc(calc(var(--sz) / 10) + calc(var(--sz) / -30));
+    border-radius: var(--sz);
+    background: var(--c2);
+    cursor: pointer;
+    border: calc(var(--sz) / 4) solid var(--c4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: all;
+    transition: all 0.5s ease 0s;
+}
+
+.toggle .thumb:before {
+    content: "";
+    position: absolute;
+    width: 65%;
+    height: 65%;
+    background: var(--c4);
+    border-radius: var(--sz);
+    transition: all 0.5s ease 0s;
+}
+
+.toggle #btn:checked + label .thumb {
+    left: calc(calc(100% - calc(calc(var(--sz) * 2) - calc(var(--sz) / 3))) - calc(calc(var(--sz) / 10) + calc(var(--sz) / 5.75)));
+    --c2: var(--c1);
+}
+
+.toggle #btn:checked + label .thumb:before {
+    width: 0%;
+    height: 0%;
+}
+
+/* Confirm Answer Button */
+.confirm-answer-btn {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #e57373, #C06FFF);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    animation: tantaliseConfirm 3s ease-in-out 5s infinite;
+}
+
+.confirm-answer-btn:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+}
+
+.confirm-answer-btn:active {
+    transform: translateX(-50%) scale(0.98);
+}
+
+/* Padlock icon inside confirm button */
+.confirm-lock-icon {
+    fill: none;
+    transform: translate3d(0, 0, 0);
+    width: 28px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.confirm-lock-icon .bling {
+    stroke: #fff;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 3;
+    stroke-dashoffset: 15;
+    transition: all 0.3s ease;
+}
+
+.confirm-lock-icon .lock {
+    stroke: #fff;
+    stroke-width: 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 36;
+    transition: all 0.4s ease;
+}
+
+.confirm-lock-icon .lockb {
+    fill: #fff;
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    transform: rotate(8deg);
+    transform-origin: 14px 20px;
+    transition: all 0.2s ease;
+}
+
+/* Locked animation state */
+.confirm-answer-btn.locked .confirm-lock-icon .bling {
+    animation: bling6132 0.3s linear forwards;
+    animation-delay: 0.2s;
+}
+
+.confirm-answer-btn.locked .confirm-lock-icon .lock {
+    stroke-dasharray: 48;
+    animation: lockAnim 0.3s linear forwards;
+}
+
+.confirm-answer-btn.locked .confirm-lock-icon .lockb {
+    transform: rotate(0);
+    transform-origin: 14px 22px;
+}
+
+/* Game Elements */
+/* Question Text (Written Instructions) */
+.question-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px auto;
+    position: relative;
+    z-index: 5;
+    font-size: clamp(3rem, 6vh, 4.5rem) !important;
+    font-weight: 900;
+    letter-spacing: 0.95px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+    flex-shrink: 0;
+    height: auto;
+    border-radius: 32px;
+    background: linear-gradient(98deg, #764ba2c0, #55408bc0);
+}
+
+
+/* Center sound button for text-based */
+#game-screen:has(.question-text[style*="display: none"]) .sound-btn {
+    position: fixed;
+    top: 60px;
+    left: 48%;
+    width: clamp(56px, 8vh, 70px);
+    height: clamp(56px, 8vh, 70px);
+    font-size: clamp(1.8rem, 3.5vh, 2.5rem);
+    z-index: 10;
+    margin-bottom: 10px;
+}
+
+
+
+/* Options Grid - Calculate available space */
+.options-grid {
+    position: relative;
+    display: grid;
+    gap: clamp(6px, 1.5vh, 16px);
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    align-content: center;
+    grid-auto-rows: minmax(0, 1fr);
+    transition: opacity 0.3s ease;
+    flex: 1;
+    padding: 8px;
+}
+
+.options-grid.fade-out {
+    opacity: 0;
+}
+
+.options-grid.fade-in {
+    animation: fadeInGrid 0.3s ease forwards;
+}
+
+.options-grid.answers-disabled {
+    filter: grayscale(0.3);
+}
+
+
+/* Dynamic grid columns based on field size */
+.options-grid[data-size="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    max-width: 800px;
+}
+.options-grid[data-size="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    max-width: 1000px;
+}
+.options-grid[data-size="4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    max-width: 900px;
+}
+.options-grid[data-size="5"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    max-width: 1000px;
+}
+
+.options-grid[data-size="5"] .option-card:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.options-grid[data-size="5"] .option-card:nth-child(2) {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.options-grid[data-size="5"] .option-card:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.options-grid[data-size="5"] .option-card:nth-child(4) {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.options-grid[data-size="5"] .option-card:nth-child(5) {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.options-grid[data-size="6"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    max-width: 1100px;
+}
+
+/* Option Cards (Stimuli) - Fit within grid */
+.option-card {
+    position: relative;
+    border: clamp(2px, 0.3vh, 4px) solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(6px, 0.8vh, 10px);
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-sizing: border-box;
+    min-height: 0;
+    min-width: 0;
+}
+
+.option-card:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+#option-card.slide-in {
+    animation: slideInCard 0.5s ease-out forwards;
+}
+
+/* Prevent text cards from shifting the grid on hover/select */
+.option-card:has(.option-text-display):hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.option-card img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit:contain;
+    flex: 1;
+    min-height: 0;
+    border-radius: 16px;
+    padding: 6px;
+}
+
+/* Phoneme display card - letter display for produce phoneme mode */
+.option-card.phoneme-display-card {
+    background: transparent;
+    border: none;
+    cursor: default;
+    overflow: visible;
+    padding: 16px;
+}
+
+.option-card.phoneme-display-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.option-card.phoneme-display-card.correct {
+    background: transparent;
+    border: 8px solid #00C853;
+    box-shadow: 0 0 30px rgba(0, 200, 83, 0.8);
+    animation: correctCelebrate 0.8s ease-out;
+}
+
+.option-card.phoneme-display-card.correct::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 28px;
+    border: 4px solid #00C853;
+    animation: borderPulse 1s ease-out infinite;
+}
+
+.option-card.phoneme-display-card.incorrect {
+    border: 6px solid #FF6666;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+    animation: incorrectShake 0.3s ease-out;
+}
+
+/* Letter option cards - selectable letters with same styling as phoneme display */
+.option-card.letter-option-card {
+    background: rgba(255, 255, 255, 0.15);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    overflow: visible;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-card.letter-option-card:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px) scale(1.05);
+}
+
+.option-card.letter-option-card.correct {
+    background: rgba(76, 175, 80, 0.4);
+    border-color: #4CAF50;
+}
+
+.option-card.letter-option-card.incorrect {
+    background: rgba(244, 67, 54, 0.4);
+    border-color: #f44336;
+}
+
+@font-face {
+  font-family: "Chewy";
+  src: url("/lib/Chewy-Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* Add padding to text-based option cards for visible gap around text */
+.option-card:has(.option-text-display) {
+    padding: 5px;
+    margin: 2px auto;
+    width: inherit;
+    overflow: visible;
+}
+
+.option-text-display {
+    font-family: Chewy, sans-serif !important;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 12px 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    letter-spacing: 1px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    box-sizing: border-box;
+    overflow: visible;
+    line-height: 1;
+}
+
+
+.option-word {
+    white-space: nowrap;
+    display: block;
+}
+
+/* Single-letter option: fill card as large as possible per field size */
+.option-letter {
+    font-size: clamp(5rem, 12vh, 9rem);
+    font-weight: 900;
+    padding: 8px;
+    line-height: 1;
+}
+.options-grid[data-size="2"] .option-letter { font-size: clamp(12rem, 28vh, 20rem); }
+.options-grid[data-size="3"] .option-letter { font-size: clamp(7rem, 16vh, 12rem); }
+.options-grid[data-size="4"] .option-letter { font-size: clamp(5rem, 12vh, 9rem); }
+.options-grid[data-size="5"] .option-letter,
+.options-grid[data-size="6"] .option-letter { font-size: clamp(3.5rem, 8vh, 6rem); }
+
+/* Answer Selection */
+/* Selected state (before confirming) */
+.option-card.selected {
+    border-color: #e77be0c0;
+    border-width: 5px;
+    box-shadow: 0 0 5px rgba(40, 81, 128, 0.6);
+    transform: translateY(-3px);
+}
+
+/* Text-only cards: keep border size stable on select to prevent grid shift */
+.option-card.selected:has(.option-text-display) {
+    overflow: visible;
+    border-width: clamp(2px, 0.3vh, 4px);
+    border-color: #e77be0c0;
+    outline: 3px solid #e77be0c0;
+    outline-offset: 0px;
+    transform: none;
+    box-shadow: 0 0 8px rgba(231, 123, 224, 0.5);
+}
+
+.option-card.selected:has(.option-text-display) .confirm-answer-btn {
+    top: 100%;
+    bottom: auto;
+    margin-top: 16px;
+}
+
+/* Disabled state */
+.option-card.disabled {
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+
+/* Answer Feedback - Option card visuals */
+/* Correct Answer */
+.option-card.correct {
+    background: linear-gradient(135deg, #51FF7E, #90EE90);
+    border-color: #00C853;
+    border-width: 8px;
+    position: relative;
+    overflow: visible;
+    animation: correctCelebrate 0.8s ease-out;
+    box-shadow: 0 0 30px rgba(0, 200, 83, 0.8);
+    transform-origin: center;
+}
+
+/* Animated outer border for correct answer */
+.option-card.correct::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 28px;
+    border: 4px solid #00C853;
+    animation: borderPulse 1s ease-out infinite;
+}
+
+/* Neutral Answer */
+.option-card.neutral {
+    border-color: #764ba2;
+    border-width: 6px;
+    animation: feedbackPop 0.3s ease-out;
+    box-shadow: 0 0 15px #55408b93;
+    transform-origin: center;
+}
+
+/* Correction - shows correct answer after incorrect (wiggle) */
+.option-card.correction {
+    border-color: #40a751d4;
+    border-width: 6px;
+    animation: correctionWiggle 0.5s ease-out;
+    box-shadow: none;
+    transform-origin: center;
+}
+
+/* Correct answer during correction phase (pop) */
+.option-card.correction-correct {
+    border-color: #40a751d4;
+    border-width: 6px;
+    animation: feedbackPop 0.3s ease-out;
+    box-shadow: none;
+    transform-origin: center;
+}
+
+/* Incorrect Answer */
+.option-card.incorrect {
+    border-color: #FF6666;
+    border-width: 6px;
+    animation: incorrectShake 0.3s ease-out;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+    transform-origin: center;
+}
+
+/* Written Feedback */
+/* Feedback - positioned at bottom */
+.feedback {
+    font-size: clamp(1.2rem, 2.5vh, 1.8rem);
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    min-height: 36px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    padding: 6px 20px;
+    z-index: 50;
+    flex-shrink: 0;
+    margin: 4px auto;
+    width: fit-content;
+}
+
+.feedback.correct-feedback {
+    background: linear-gradient(145deg, #37b24d, #246b43);
+    color: white;
+    animation: correctCelebrate 0.5s ease;
+}
+
+.feedback.incorrect-feedback {
+    background: linear-gradient(145deg, #e57373, #ef5350);
+    color: white;
+    animation: feedbackPop 0.3s ease;
+}
+
+.feedback.neutral-feedback {
+    background: linear-gradient(98deg, #764ba2, #55408b);
+    color: white;
+    animation: feedbackPop 0.5s ease;
+}
+
+
+
+
+
+
+/* Animations */
+
+@keyframes feedbackPop {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
+@keyframes tantalise {
+    0% { 
+        transform: rotate(0deg) scale(1);
+    }
+    2.5% { 
+        transform: rotate(-3deg) scale(1.05);
+    }
+    5% { 
+        transform: rotate(3deg) scale(1.05);
+    }
+    7.5% { 
+        transform: rotate(-3deg) scale(1.05);
+    }
+    10% { 
+        transform: rotate(3deg) scale(1.05);
+    }
+    12.5% { 
+        transform: rotate(0deg) scale(1.1);
+    }
+    15% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+
+
+/* Slide in animation for option cards */
+@keyframes slideInCard {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInGrid {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes incorrectShake {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-3px); }
+  75%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes correctionWiggle {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-3deg); }
+    30%  { transform: rotate(3deg); }
+    45%  { transform: rotate(-2deg); }
+    60%  { transform: rotate(2deg); }
+    75%  { transform: rotate(-1deg); }
+    90%  { transform: rotate(1deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes borderPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes celebrate {
+    0% {
+        transform: translateX(-50%) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-50%) scale(1.5) rotate(180deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+@keyframes correctCelebrate {
+  0%   { box-shadow: 0 0 30px rgba(0, 200, 83, 0.8); }
+  20%  { box-shadow: 0 0 50px rgba(0, 200, 83, 1); }
+  40%  { box-shadow: 0 0 35px rgba(0, 200, 83, 0.8); }
+  60%  { box-shadow: 0 0 55px rgba(0, 200, 83, 1); }
+  80%  { box-shadow: 0 0 40px rgba(0, 200, 83, 0.8); }
+  100% { box-shadow: 0 0 30px rgba(0, 200, 83, 0.8); }
+}
+
+@keyframes tantaliseConfirm {
+    0% {
+        transform: translateX(-50%) rotate(0deg) scale(1);
+    }
+    2.5% {
+        transform: translateX(-50%) rotate(-3deg) scale(1.05);
+    }
+    5% {
+        transform: translateX(-50%) rotate(3deg) scale(1.05);
+    }
+    7.5% {
+        transform: translateX(-50%) rotate(-3deg) scale(1.05);
+    }
+    10% {
+        transform: translateX(-50%) rotate(3deg) scale(1.05);
+    }
+    12.5% {
+        transform: translateX(-50%) rotate(0deg) scale(1.1);
+    }
+    15% {
+        transform: translateX(-50%) scale(1);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes bling6132 {
+    50% {
+        stroke-dasharray: 3;
+        stroke-dashoffset: 12;
+    }
+    100% {
+        stroke-dasharray: 3;
+        stroke-dashoffset: 9;
+    }
+}
+
+@keyframes lockAnim {
+    50% {
+        transform: translateY(1px);
+    }
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .options-grid[data-size="3"],
+    .options-grid[data-size="5"],
+    .options-grid[data-size="6"] {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 10px !important;
+    }
+    
+    .sound-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .question-counter {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+}
+
+/* Landscape orientation */
+@media (orientation: landscape) {
+    .question-text {
+        font-size: clamp(1.2rem, 3vh, 2rem);
+        padding: 5px; 
+    }
+    
+    .options-grid {
+        gap: clamp(4px, 1vh, 10px);
+    }
+    
+    .game-top-bar {
+        margin-bottom: 0.5vh;
+        height: clamp(45px, 7vh, 60px);
+    }
+    
+    .feedback {
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        min-height: clamp(30px, 4vh, 40px);
+        max-height: clamp(30px, 4vh, 40px);
+    }
+}
+
+/* Very small screens */
+@media (max-height: 600px) {
+    .question-text {
+        font-size: clamp(1rem, 2.5vh, 1.5rem);
+        margin-bottom: 0.5vh;
+        max-height: 8vh;
+    }
+    
+    .game-top-bar {
+        margin-bottom: 0.5vh;
+        height: clamp(40px, 6vh, 50px);
+    }
+    
+    .options-grid {
+        gap: 6px;
+    }
+    
+    .option-card {
+        padding: 6px;
+        border-width: 2px;
+    }
+    
+    .feedback {
+        min-height: 25px;
+        max-height: 25px;
+        font-size: 1rem;
+    }
+}
+
+
+
+/* ── Match Game ─────────────────────────────────────────────────────────────── */
+
+/* Sort game card stack */
+#sort-stack {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+#sort-stack #draggable-target {
+    position: relative;
+    z-index: 3;
+}
+
+.stack-ghost {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.75);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    border: 3px solid rgba(255,255,255,0.5);
+    pointer-events: none;
+}
+
+.ghost-a {
+    top: 6px;
+    left: -5px;
+    transform: rotate(-4deg);
+    z-index: 2;
+}
+
+.ghost-b {
+    top: 11px;
+    left: 5px;
+    transform: rotate(3deg);
+    z-index: 1;
+}
+
+/* Drag zone at the bottom of the screen */
+#drag-zone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    min-height: 175px;
+}
+
+/* Draggable target card */
+#draggable-target {
+    width: 140px;
+    height: 140px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    cursor: grab;
+    touch-action: none;
+    transition: opacity 0.2s, transform 0.15s;
+    border: 3px solid rgba(255,255,255,0.6);
+}
+
+#draggable-target img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+
+#draggable-target.dragging {
+    opacity: 0.35;
+    transform: scale(0.95);
+}
+
+#draggable-target.answers-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+#draggable-target.answered {
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Floating clone that follows the pointer during drag */
+#drag-clone {
+    position: fixed;
+    width: 140px;
+    height: 140px;
+    border-radius: 16px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    opacity: 0.9;
+    transform: scale(1.05);
+    border: 3px solid white;
+}
+
+#drag-clone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+}
+
+/* Placed target overlay (sits on top of selected option card at drop point) */
+#placed-target img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Text content inside draggable, clone, and placed target */
+.drag-text-display {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    padding: 25px 25px;
+    background: rgba(255,255,255,0.92);
+    color: #764ba2;
+    border-radius: 22px;
+    line-height: 1.2;
+}
+
+/* Drag-over highlight (beats hover suppression below) */
+.option-card.drag-over {
+    transform: scale(1.08) !important;
+    box-shadow: 0 0 0 4px var(--accent-color) !important;
+}
+
+/* Text-mode grid: columns auto-size to fit full word width */
+.options-grid.text-mode {
+    grid-template-columns: repeat(auto-fit, max-content) !important;
+    justify-content: center;
+    max-width: 100% !important;
+}
+
+/* Match game overrides — scoped to pages containing the drag zone */
+body:has(#drag-zone) .option-card {
+    cursor: default;
+}
+
+body:has(#drag-zone) .option-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+body:has(#drag-zone) .option-card.selected {
+    overflow: visible;
+}
+
+body:has(#drag-zone) .option-card.selected .confirm-answer-btn {
+    top: 100% !important;
+    bottom: auto !important;
+    margin-top: 12px;
+    z-index: 200;
+}
+
+/* Text-mode draggable and clone: auto-size to fit words */
+#draggable-target.text-drag,
+#drag-clone.text-drag {
+    width: auto;
+    min-width: 80px;
+    height: auto;
+    min-height: 56px;
+    overflow: visible;
+    padding: 15px;
+}
+
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.82rem;
+}

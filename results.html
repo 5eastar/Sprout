@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/data.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="boxicons/css/boxicons.min.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar"></section>
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu bx-sm' role="button" tabindex="0" aria-label="Toggle sidebar"></i>
+            <input type="checkbox" class="checkbox" id="switch-mode" hidden />
+            <label class="switch-lm" for="switch-mode" aria-label="Toggle dark mode">
+                <i class="bx bxs-moon"></i>
+                <i class="bx bx-sun"></i>
+                <div class="ball"></div>
+            </label>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Results</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="home.html">Home</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Results</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="results-container">
+                <div id="summary" class="summary-section"></div>
+
+                <!-- Question-by-Question Results -->
+                <div id="question-results"></div>
+
+                <div class="button-group">
+                    <button class="btn-primary" id="export-btn">Export to CSV</button>
+                    <button class="btn-primary" id="new-quiz-btn">New Quiz</button>
+                    <button class="btn-secondary" id="restart-btn">Restart</button>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/results.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+/* menu.css — Form controls on setup pages: sliders, checkboxes, radio groups, form-group label+input. */
+
+
+
+/* Form Elements */
+.options-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
+    width: 100%;
+    flex: auto;
+    padding: 10px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.form-group label {
+    flex-shrink: 0;
+    min-width: 140px;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 550;
+    font-size: 1.2rem;
+    letter-spacing: 0.6px;
+}
+
+.form-group input,
+.form-group select {
+    flex-grow: 1;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--border-color-light);
+    border-radius: 15px;
+    font-size: 1.15rem;
+    font-weight: 400;
+    transition: border-color 0.3s ease;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.form-group input:not([type="range"]):focus,
+.form-group select:focus {
+    outline: none;
+    opacity: 0.85;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Input Button Group */
+.input-button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.input-button-group input {
+    flex: 1;
+}
+
+.input-button-group button {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Checkbox List */
+.checkbox-list input[type="checkbox"] {
+    display: none;
+    background: rgba(255, 255, 255, 0.001);
+}
+
+.checkbox-list input[type="checkbox"] + label {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.checkbox-list input[type="checkbox"]:hover + label:hover {
+    color: var(--accent-color);
+}
+
+.checkbox-list input[type="checkbox"]:hover + label:before {
+    border: 1px solid var(--accent-dark);
+    box-shadow: 2px 1px 0 var(--accent-dark);
+}
+
+.checkbox-list input[type="checkbox"] + label:last-child {
+    margin-bottom: 0;
+}
+
+.checkbox-list input[type="checkbox"] + label:before {
+    content: "";
+    display: block;
+    width: 1.4em;
+    height: 1.4em;
+    border: 1px solid var(--accent-dark);
+    border-radius: 1em;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: all 0.2s, background 0.2s ease-in-out;
+    transition: all 0.2s, background 0.2s ease-in-out;
+    background: #f3f3f3;
+    box-shadow: -2px -1px 0 var(--accent-dark);
+}
+
+.checkbox-list input[type="checkbox"]:checked + label:before {
+    border-radius: 1em;
+    border: 2px solid #fff;
+    width: 1.15em;
+    height: 1.15em;
+    background: var(--accent-dark);
+    box-shadow: 2px 1px 0 var(--accent-dark);
+}
+
+.checkbox-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 6px;
+    padding: 4px;
+    max-height: 120px;
+    overflow-y: auto;
+    border-radius: var(--radius-md);
+    background-color: #ffffff9a;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+    border: 2px solid transparent;
+    margin: 5px;
+}
+
+/* Slider Styles */
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 24px;
+    background: linear-gradient(to right, var(--accent-color) 0%, var(--accent-color-alt) 100%);
+    outline: none;
+    -webkit-appearance: none;
+    margin: 10px 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Compare game concept groups */
+.compare-group {
+    margin-bottom: 12px;
+}
+
+.compare-group-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    padding-left: 2px;
+}

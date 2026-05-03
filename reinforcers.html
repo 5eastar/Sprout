@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforcers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="boxicons/css/boxicons.min.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar"></section>
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu bx-sm' role="button" tabindex="0" aria-label="Toggle sidebar"></i>
+            <input type="checkbox" class="checkbox" id="switch-mode" hidden />
+            <label class="switch-lm" for="switch-mode" aria-label="Toggle dark mode">
+                <i class="bx bxs-moon"></i>
+                <i class="bx bx-sun"></i>
+                <div class="ball"></div>
+            </label>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Reinforcers</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="home.html">Home</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Reinforcers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="reinforcer-page-panel">
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">
+                    Toggle which reinforcers pupils can choose at the end of a session. Launch opens a reinforcer in a new tab.
+                </p>
+                <div id="reinforcer-grid" class="reinforcer-grid"></div>
+            </div>
+        </main>
+    </section>
+
+    <script src="js/storage.js"></script>
+    <script>
+        const REINFORCERS = [
+            { type: 'balloons',  img: 'images/animation/rBalloon.jpg',   label: 'Balloons'     },
+            { type: 'particles', img: 'images/animation/rParticles.jpg', label: 'Sparkles'     },
+            { type: 'ballpit',   img: 'images/animation/rBallpit.jpg',   label: 'Ball Pit'     },
+            { type: 'pond',      img: 'images/animation/rPond.jpg',      label: 'Pond'         },
+            { type: 'window',    img: 'images/animation/rWindow.jpg',    label: 'Snowy Window' },
+            { type: 'xylophone', img: 'images/animation/rXylophone.jpg', label: 'Xylophone'   },
+        ];
+
+        function renderReinforcerGrid() {
+            const grid = document.getElementById('reinforcer-grid');
+            const settings = getReinforceSettings();
+            grid.innerHTML = '';
+
+            REINFORCERS.forEach(({ type, img, label }) => {
+                const enabled = settings[type] !== false;
+
+                const card = document.createElement('div');
+                card.className = 'reinforcer-card' + (enabled ? ' enabled' : '');
+
+                const image = document.createElement('img');
+                image.src = img;
+                image.alt = label;
+
+                const footer = document.createElement('div');
+                footer.className = 'reinforcer-card-footer';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = label;
+
+                const toggleWrap = document.createElement('label');
+                toggleWrap.className = 'reinforcer-toggle';
+                toggleWrap.title = enabled ? 'Disable' : 'Enable';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = enabled;
+                checkbox.addEventListener('change', () => {
+                    const s = getReinforceSettings();
+                    s[type] = checkbox.checked;
+                    setReinforceSettings(s);
+                    card.classList.toggle('enabled', checkbox.checked);
+                    toggleWrap.title = checkbox.checked ? 'Disable' : 'Enable';
+                });
+
+                const track = document.createElement('span');
+                track.className = 'reinforcer-toggle-track';
+                toggleWrap.appendChild(checkbox);
+                toggleWrap.appendChild(track);
+
+                const launchBtn = document.createElement('button');
+                launchBtn.className = 'launch-btn';
+                launchBtn.textContent = '↗';
+                launchBtn.title = `Launch ${label} in new tab`;
+                launchBtn.addEventListener('click', () => {
+                    window.open(`pages/reinforcer-standalone.html?type=${type}`, '_blank');
+                });
+
+                footer.appendChild(nameSpan);
+                footer.appendChild(toggleWrap);
+                footer.appendChild(launchBtn);
+                card.appendChild(image);
+                card.appendChild(footer);
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderReinforcerGrid);
+    </script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonics Set-up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/phonics.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <!-- Boxicons (local — avoids CORS on file://) -->
+    <link rel="stylesheet" href="boxicons/css/boxicons.min.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar"></section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu bx-sm' role="button" tabindex="0" aria-label="Toggle sidebar"></i>
+            <input type="checkbox" class="checkbox" id="switch-mode" hidden />
+            <label class="switch-lm" for="switch-mode" aria-label="Toggle dark mode">
+                <i class="bx bxs-moon"></i>
+                <i class="bx bx-sun"></i>
+                <div class="ball"></div>
+            </label>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Phonics Set-up</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="home.html">Home</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Phonics</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Settings Cards -->
+            <ul class="box-option">
+                <li>
+                    <div class="bx"><i class="bx bxc-program-order"></i></div>
+                    <div class="text">
+                        <h3>Program Order</h3>
+                        <div class="radio-group">
+                            <label><input type="radio" name="program-order" value="random" checked> Random</label>
+                            <label><input type="radio" name="program-order" value="custom"> Custom</label>
+                        </div>
+                        <div id="custom-order" class="hidden">
+                            <select id="order-1">
+                                <option value="grapheme-to-phoneme">Produce Phoneme</option>
+                                <option value="phoneme-to-grapheme">Select Grapheme</option>
+                                <option value="initial-sounds">Select Picture</option>
+                            </select>
+                            <select id="order-2">
+                                <option value="phoneme-to-grapheme">Select Grapheme</option>
+                                <option value="grapheme-to-phoneme">Produce Phoneme</option>
+                                <option value="initial-sounds">Select Picture</option>
+                            </select>
+                            <select id="order-3">
+                                <option value="initial-sounds">Select Picture</option>
+                                <option value="grapheme-to-phoneme">Produce Phoneme</option>
+                                <option value="phoneme-to-grapheme">Select Grapheme</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="bx"><i class="bx bxc-distractors"></i></div>
+                    <div class="text">
+                        <h3>Distractors</h3>
+                        <div class="radio-group">
+                            <label><input type="radio" name="phase-display" value="all" checked> All phases</label>
+                            <label><input type="radio" name="phase-display" value="current"> Current phase</label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Pupil Targets -->
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Pupil Targets</h3>
+                        <button id="add-pupil-btn" class="btn-secondary">+ Add Pupil</button>
+                    </div>
+                    <div id="pupils-container"></div>
+                </div>
+            </div>
+
+            <div class="start-session-wrap">
+                <button id="start-session-btn" class="btn-primary" disabled>Start Phonics Session</button>
+            </div>
+
+            <!-- Pupil Selection Modal -->
+            <div id="pupil-select-modal" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close" id="close-pupil-modal">&times;</span>
+                    <h2>Select Pupil</h2>
+                    <div id="available-pupils-list"></div>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script src="js/utils.js"></script>
+    <script src="data.js"></script>
+    <script src="js/phonics/phData.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/phonics/phSetup.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>
