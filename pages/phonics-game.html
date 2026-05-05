@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonics Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+    <link rel="stylesheet" href="../styles/forms.css">
+    <link rel="stylesheet" href="../styles/game.css">
+    <link rel="stylesheet" href="../styles/r+.css">
+    <link rel="stylesheet" href="../styles/phonics.css">
+
+    <style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="teacher-btn" class="teacher-btn">T</button>
+
+        <!-- Program Intro Screen -->
+        <div id="program-intro-screen">
+            <h1 id="program-intro-title"></h1>
+            <h2>Everybody ready?</h2>
+            <button class="btn-primary" id="program-start-btn">Let's Go!</button>
+        </div>
+
+        <!-- Pupil Chooser Screen -->
+        <div id="pupil-choose-screen">
+            <h2>Which pupil is ready next?</h2>
+            <div id="pupil-choose-buttons"></div>
+        </div>
+
+        <!-- Pupil Turn Screen -->
+        <div id="pupil-turn-screen">
+            <img id="pupil-turn-photo" src="" alt="">
+            <h2 id="pupil-turn-name"></h2>
+            <h3 id="pupil-turn-message"></h3>
+            <button class="btn-primary" id="pupil-ready-btn">Ready!</button>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <h1>✨ Ready to Learn? ✨</h1>
+            <button class="btn-primary" id="begin-btn">Let's Go!</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="game-screen" class="screen" style="display:none;">
+            <div class="game-top-bar">
+                <div id="question-counter" class="question-counter"></div>
+                <button id="sound-btn" class="sound-btn" title="Hear it again!">🔊</button>
+            </div>
+
+            <!-- Current Pupil Indicator (overlay) -->
+            <div id="current-pupil-indicator">
+                <img id="current-pupil-photo" src="" alt="">
+                <span id="current-pupil-name"></span>
+            </div>
+           
+            <div id="question-text" class="question-text"></div>
+            <div id="options-grid" class="options-grid"></div>
+            <div id="feedback" class="feedback"></div>
+
+            <!-- Wait Mode Toggle -->
+            <div class="toggle">
+                <input type="checkbox" id="btn">
+                <label for="btn">
+                    <span class="thumb"></span>
+                </label>
+            </div>
+
+            <!-- Teacher Controls (only visible in grapheme->phoneme mode) -->
+            <div id="teacher-controls" class="teacher-controls" style="display: none;">
+                <button class="teacher-score-btn plus" onclick="phonicsGame.teacherScore('plus')" title="Correct">+</button>
+                <button class="teacher-score-btn minus" onclick="phonicsGame.teacherScore('minus')" title="Incorrect">−</button>
+                <button class="teacher-score-btn neutral" onclick="phonicsGame.teacherScore('neutral')" title="No response">○</button>
+            </div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="end-screen" class="screen" style="display:none;">
+            <h1>You did it!</h1>
+            <h1>✨ Great work ✨</h1>
+
+            <!-- Reinforcer Selection Slider (inside end screen) -->
+            <div id="reinforcer-selection" class="reinforcer-selection">
+                <h2>Choose Your Reward!</h2>
+                <div class="slider">
+                    <div class="slide-track"></div>
+                </div>
+                <p class="carousel-hint">Tap a reward to choose!</p>
+            </div>
+
+            <button class="btn-primary" id="try-again-btn" onclick="window.location.href='phonics-game.html'" style="position:fixed; top:50%; transform:translateY(-50%); left:0; right:0; margin:0 auto; width:fit-content; z-index:1000; display:none;">
+                Try Again ⟲
+            </button>
+        </div>
+    </div>
+
+    <script>var ASSET_BASE = '../';</script>
+    <script src="../js/confetti.browser.min.js"></script>
+    <script src="../data.js"></script>
+    <script src="../js/phonics/phData.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/sounds.js"></script>
+    <script src="../js/pondImage.js"></script>
+    <script src="../js/reinforcer.js"></script>
+    <script src="../js/phonics/phAudio.js"></script>
+    <script src="../js/game/core.js"></script>
+    <script src="../js/game/timer.js"></script>
+    <script src="../js/game/speech.js"></script>
+    <script src="../js/game/ui.js"></script>
+    <script src="../js/game/flow.js"></script>
+    <script src="../js/phonics/phCore.js"></script>
+    <script src="../js/phonics/phDOM.js"></script>
+    <script src="../js/phonics/phFlow.js"></script>
+    <script src="../js/phonics/phPrograms.js"></script>
+    <script src="../js/phonics/phSession.js"></script>
+    <script src="../js/phonics/phSpeech.js"></script>
+    <script src="../js/phonics/phUi.js"></script>
+</body>
+</html>

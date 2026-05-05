@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pupil Data</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+    <link rel="stylesheet" href="../styles/forms.css">
+    <link rel="stylesheet" href="../styles/data.css">
+    <link rel="stylesheet" href="../styles/modal.css">
+    <link rel="stylesheet" href="../styles/home.css">
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../boxicons/css/boxicons.min.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar"></section>
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu bx-sm' role="button" tabindex="0" aria-label="Toggle sidebar"></i>
+            <input type="checkbox" class="checkbox" id="switch-mode" hidden />
+            <label class="switch-lm" for="switch-mode" aria-label="Toggle dark mode">
+                <i class="bx bxs-moon"></i>
+                <i class="bx bx-sun"></i>
+                <div class="ball"></div>
+            </label>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Pupil Data</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="../home.html">Home</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Pupil Data</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pupil Select Panel -->
+            <div class="bottom-section">
+                <div class="panel-header-row">
+                    <h2>Select Pupil</h2>
+                    <button class="btn-secondary" id="show-add-pupil-btn">+ Add Pupil</button>
+                </div>
+
+                <!-- Inline add form (hidden by default) -->
+                <div id="add-pupil-row" class="add-pupil-inline hidden">
+                    <input type="text" id="new-pupil-name" placeholder="Enter pupil name…" maxlength="40"
+                           onkeydown="if(event.key==='Enter') addNewPupil()">
+                    <button class="btn-secondary" onclick="addNewPupil()">Add</button>
+                    <button class="btn-icon-sm" onclick="hideAddPupil()">✕</button>
+                    <p id="pupil-msg"></p>
+                </div>
+
+                <div id="pupil-select-grid" class="pupil-cards-grid"></div>
+            </div>
+        </main>
+    </section>
+
+    <!-- PUPIL DATA MODAL -->
+    <div id="pupil-modal" class="modal hidden">
+        <div class="modal-content pupil-modal-content">
+
+            <!-- Modal Header -->
+            <div class="pupil-modal-header">
+                <div class="pupil-modal-photo-wrap" id="modal-photo-wrap">
+                    <img id="modal-pupil-photo" src="" alt="" style="display:none;">
+                    <div id="modal-pupil-initials" class="pupil-initials-large"></div>
+                </div>
+                <div class="pupil-modal-header-info">
+                    <h2 id="modal-pupil-name"></h2>
+                </div>
+                <div class="pupil-modal-header-actions">
+                    <button class="btn-icon" id="modal-edit-btn" title="Edit pupil" onclick="toggleEditMode()"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="m17.71 7.29-3-3a.996.996 0 0 0-1.41 0l-11.01 11A1 1 0 0 0 2 16v3c0 .55.45 1 1 1h3c.27 0 .52-.11.71-.29l11-11a.996.996 0 0 0 0-1.41ZM5.59 18H4v-1.59l7.5-7.5 1.59 1.59zm8.91-8.91L12.91 7.5 14 6.41 15.59 8zM11 18h11v2H11z"></path></svg></button>
+                    <button class="btn-icon close" onclick="closePupilModal()">&times;</button>
+                </div>
+            </div>
+
+            <!-- Edit Panel (hidden until edit btn clicked) -->
+            <div id="modal-edit-panel" class="modal-edit-panel hidden">
+                <div class="edit-row">
+                    <input type="text" id="modal-rename-input" placeholder="New name…" maxlength="40">
+                    <button class="btn-secondary" onclick="saveRename()">Save Name</button>
+                </div>
+                <div class="edit-row">
+                    <button class="btn-secondary" onclick="triggerPhotoUpload()">📷 Change Photo</button>
+                    <input type="file" id="modal-photo-input" accept="image/*" style="display:none" onchange="handleModalPhoto(this)">
+                    <button class="btn-danger" onclick="confirmDeletePupil()">🗑️ Delete Pupil</button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div id="modal-stats"></div>
+
+            <!-- History List -->
+            <div id="modal-history-list" class="modal-history-list"></div>
+
+            <!-- Export / Delete All -->
+            <div class="button-group" id="modal-actions" style="display:none;">
+                <button class="btn-secondary" id="modal-export-btn">Export All Results</button>
+                <button class="btn-danger" onclick="confirmDeleteAllSessions()">🗑️ Delete All Quiz Data</button>
+            </div>
+        </div>
+    </div>
+
+    <script>var ASSET_BASE = '../';</script>
+    <script src="../js/utils.js"></script>
+    <script src="../data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/program-manager.js"></script>
+    <script src="../js/pupils.js"></script>
+    <script src="../js/history.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/ui.js"></script>
+</body>
+</html>
