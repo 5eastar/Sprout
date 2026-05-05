@@ -9,7 +9,6 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
 }
 
 a {
@@ -21,7 +20,6 @@ li {
 }
 
 :root {
-    --grad1: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-alt) 100%);
 	--light: #F9F9F9;
 	--blue: #2f9c2f;
 	--light-blue: #CFE8FF;
@@ -66,16 +64,16 @@ body {
 .options-section {
 	background: var(--light);
 	border: 1px solid var(--border-color);
-	box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-	border-radius: 20px;
+	box-shadow: var(--shadow-card);
+	border-radius: var(--radius-xl);
 	gap: 0;
 }
 
 .bottom-section {
 	background: var(--light);
 	border: 1px solid var(--border-color);
-	box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-	border-radius: 20px;
+	box-shadow: var(--shadow-card);
+	border-radius: var(--radius-xl);
 	max-height: none;
 }
 
@@ -117,19 +115,19 @@ body {
 	align-items: center;
 	gap: 6px;
 	padding: 6px 16px;
-	border-radius: 20px;
+	border-radius: var(--radius-2xl);
 	border: 2px solid var(--border-color);
 	cursor: pointer;
 	font-size: 0.95rem;
 	font-weight: 500;
-	transition: all 0.2s;
+	transition: all var(--transition-fast) ease;
 	min-width: unset;
 	margin: 0;
 	color: var(--dark);
 }
 
 .radio-group label:has(input:checked) {
-	background: var(--grad1);
+	background: var(--bg-gradient);
 	color: white;
 	border-color: transparent;
 }
@@ -154,12 +152,12 @@ body {
 	background: var(--grey);
 	border: 1px solid var(--border-color);
 	box-shadow: none;
-	border-radius: 16px;
+	border-radius: var(--radius-lg);
 	padding: 20px;
 }
 
 .category-slot h3 {
-	background: var(--grad1);
+	background: var(--bg-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -196,14 +194,15 @@ body {
 .setup-container .section {
 	background: var(--light);
 	border: 1px solid var(--border-color);
-	box-shadow: 0 4px 12px var(--shadow-light);
+	box-shadow: var(--shadow-light);
+	border-radius: var(--radius-lg);
 }
 .setup-container .section h2 {
 	color: var(--text-heading);
 	border-bottom-color: var(--text-heading);
 }
 .setup-container .section h3 {
-	background: var(--grad1);
+	background: var(--bg-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -525,7 +524,7 @@ body {
     right: 0;
     background: var(--light);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
+    border-radius: var(--radius-lg);
     width: 250px;
     max-height: 300px;
     overflow-y: auto;
@@ -574,7 +573,7 @@ body.dark #content nav .notification-menu li a{
     right: 0;
     background: var(--light);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
+    border-radius: var(--radius-lg);
     width: 200px;
     z-index: 9999;
     font-family: var(--lato);
@@ -618,7 +617,7 @@ body.dark #content nav .profile-menu li a {
 	display: block;
 	min-width: 50px;
 	height: 25px;
-	border-radius: 25px;
+	border-radius: var(--radius-round);
 	background: var(--grey);
 	cursor: pointer;
 	position: relative;
@@ -641,7 +640,7 @@ body.dark #content nav .profile-menu li a {
 
 #content nav .switch-lm {
 	background-color:  var(--grey);
-	border-radius: 50px;
+	border-radius: var(--radius-round);
 	cursor: pointer;
 	display: flex;
 	align-items: center;
@@ -662,7 +661,7 @@ body.dark #content nav .profile-menu li a {
 	height: 20px;
 	width: 20px;
 	transform: translateX(0px);
-	transition: transform 0.2s linear;
+	transition: transform var(--transition-fast) ease;
 }
 
 #content nav .checkbox:checked + .switch-lm .ball {
@@ -700,7 +699,7 @@ body.dark #content nav .profile-menu li a {
 	font-size: 36px;
 	font-weight: 600;
 	margin-bottom: 10px;
-	background: var(--grad1);
+	background: var(--bg-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -746,7 +745,7 @@ body.dark #content nav .profile-menu li a {
 #content main .box-info li {
 	padding: 24px;
 	background: var(--light);
-	border-radius: 20px;
+	border-radius: var(--radius-xl);
 	display: flex;
 	align-items: center;
 	grid-gap: 24px;
@@ -754,7 +753,7 @@ body.dark #content nav .profile-menu li a {
 #content main .box-info li div.bx {
 	width: 80px;
 	height: 80px;
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	font-size: 36px;
 	display: flex;
 	justify-content: center;
@@ -763,7 +762,7 @@ body.dark #content nav .profile-menu li a {
 #content main .box-info li:nth-child(1) div.bx,
 #content main .box-info li:nth-child(2) div.bx,
 #content main .box-info li:nth-child(3) div.bx {
-	background: var(--grad1);
+	background: var(--bg-gradient);
 	color: #fff;
 }
 #content main .box-info li .text h3 {
@@ -788,7 +787,7 @@ body.dark #content nav .profile-menu li a {
 	color: var(--dark);
 }
 #content main .table-data > div {
-	border-radius: 20px;
+	border-radius: var(--radius-xl);
 	background: var(--light);
 	padding: 24px;
 	overflow-x: auto;
@@ -803,7 +802,7 @@ body.dark #content nav .profile-menu li a {
 	margin-right: auto;
 	font-size: 24px;
 	font-weight: 600;
-	background: var(--grad1);
+	background: var(--bg-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -849,7 +848,7 @@ body.dark #content nav .profile-menu li a {
 	font-size: 10px;
 	padding: 6px 16px;
 	color: var(--light);
-	border-radius: 20px;
+	border-radius: var(--radius-2xl);
 	font-weight: 700;
 }
 #content main .table-data .order table tr td .status.completed {
@@ -874,7 +873,7 @@ body.dark #content nav .profile-menu li a {
 	width: 100%;
 	margin-bottom: 16px;
 	background: var(--grey);
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	padding: 14px 20px;
 	display: flex;
 	justify-content: space-between;
@@ -901,7 +900,7 @@ body.dark #content nav .profile-menu li a {
       position: absolute;
       background-color: #f9f9f9;
       border: 1px solid #ddd;
-      border-radius: 5px;
+      border-radius: var(--radius-sm);
       width: 200px;
  }
 
@@ -1031,7 +1030,7 @@ body.dark #content nav .profile-menu li a {
 	margin-bottom: 16px;
 	padding: 12px 16px;
 	background: var(--grey);
-	border-radius: 12px;
+	border-radius: var(--radius-lg);
 }
 
 .add-pupil-inline input {
@@ -1039,7 +1038,7 @@ body.dark #content nav .profile-menu li a {
 	min-width: 180px;
 	padding: 8px 14px;
 	border: 2px solid var(--border-color);
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	font-family: inherit;
 	font-size: 0.95rem;
 	background: var(--light);
@@ -1060,8 +1059,8 @@ body.dark #content nav .profile-menu li a {
 	font-size: 1rem;
 	color: var(--dark);
 	padding: 6px 8px;
-	border-radius: 8px;
-	transition: background 0.2s;
+	border-radius: var(--radius-sm);
+	transition: background var(--transition-fast) ease;
 }
 
 .btn-icon-sm:hover {
@@ -1079,11 +1078,11 @@ body.dark #content nav .profile-menu li a {
 .pupil-select-card {
 	background: var(--grey);
 	border: 2px solid var(--border-color);
-	border-radius: 16px;
+	border-radius: var(--radius-xl);
 	padding: 16px 12px 14px;
 	cursor: pointer;
 	text-align: center;
-	transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+	transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease, border-color var(--transition-fast) ease;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -1109,7 +1108,7 @@ body.dark #content nav .profile-menu li a {
 	width: 64px;
 	height: 64px;
 	border-radius: 50%;
-	background: var(--grad1);
+	background: var(--bg-gradient);
 	color: white;
 	font-size: 1.6rem;
 	font-weight: 700;
@@ -1155,7 +1154,7 @@ body.dark #content nav .profile-menu li a {
 	flex-direction: column;
 	gap: 0;
 	padding: 0;
-	border-radius: 24px;
+	border-radius: var(--radius-2xl);
 }
 
 /* Header */
@@ -1169,7 +1168,7 @@ body.dark #content nav .profile-menu li a {
 	top: 0;
 	background: var(--light);
 	z-index: 10;
-	border-radius: 24px 24px 0 0;
+	border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
 .pupil-modal-photo-wrap {
@@ -1188,7 +1187,7 @@ body.dark #content nav .profile-menu li a {
 	width: 72px;
 	height: 72px;
 	border-radius: 50%;
-	background: var(--grad1);
+	background: var(--bg-gradient);
 	color: white;
 	font-size: 2rem;
 	font-weight: 700;
@@ -1228,7 +1227,7 @@ body.dark #content nav .profile-menu li a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: background 0.2s;
+	transition: background var(--transition-fast) ease;
 	color: var(--dark);
 }
 
@@ -1262,7 +1261,7 @@ body.dark #content nav .profile-menu li a {
 	min-width: 160px;
 	padding: 8px 14px;
 	border: 2px solid var(--border-color);
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	font-family: inherit;
 	font-size: 0.95rem;
 	background: var(--light);
@@ -1273,11 +1272,11 @@ body.dark #content nav .profile-menu li a {
 	color: white;
 	border: none;
 	padding: 8px 16px;
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	font-size: 0.9rem;
 	font-weight: 600;
 	cursor: pointer;
-	transition: background 0.2s;
+	transition: background var(--transition-fast) ease;
 }
 
 .btn-danger:hover {
@@ -1305,7 +1304,7 @@ body.dark #content nav .profile-menu li a {
 #content main .box-option li {
 	padding: 20px 24px;
 	background: var(--light);
-	border-radius: 20px;
+	border-radius: var(--radius-xl);
 	display: flex;
 	align-items: flex-start;
 	gap: 20px;
@@ -1314,13 +1313,13 @@ body.dark #content nav .profile-menu li a {
 #content main .box-option li div.bx {
 	width: 60px;
 	height: 60px;
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	font-size: 28px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-shrink: 0;
-	background: var(--grad1);
+	background: var(--bg-gradient);
 	color: #fff;
 }
 
@@ -1347,7 +1346,7 @@ body.dark #content nav .profile-menu li a {
 	width: 100%;
 	background: var(--grey);
 	border: 2px solid var(--border-color);
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	padding: 6px 10px;
 	font-family: inherit;
 	font-size: 0.9rem;
@@ -1364,7 +1363,7 @@ body.dark #content nav .profile-menu li a {
 	width: 100%;
 	padding: 10px 14px;
 	border: 2px solid var(--border-color);
-	border-radius: 12px;
+	border-radius: var(--radius-lg);
 	font-family: inherit;
 	font-size: 0.95rem;
 	background: var(--grey);
@@ -1444,7 +1443,7 @@ body.dark #content nav .profile-menu li a {
 	color: var(--dark-grey);
 	cursor: pointer;
 	margin-bottom: -2px;
-	transition: color 0.2s, border-color 0.2s;
+	transition: color var(--transition-fast) ease, border-color var(--transition-fast) ease;
 }
 
 .programs-page-panel .tab-buttons button.active,
@@ -1464,7 +1463,7 @@ body.dark #content nav .profile-menu li a {
 	margin: 6px 0;
 	padding: 8px 12px;
 	background: var(--grey);
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	flex-wrap: wrap;
 }
 
@@ -1473,7 +1472,7 @@ body.dark #content nav .profile-menu li a {
 	min-width: 120px;
 	padding: 6px 10px;
 	border: 2px solid var(--border-color);
-	border-radius: 8px;
+	border-radius: var(--radius-sm);
 	font-family: inherit;
 	background: var(--light);
 	margin-bottom: 0;
@@ -1488,11 +1487,11 @@ body.dark #content nav .profile-menu li a {
 	background: #38a169;
 	color: white;
 	padding: 6px 16px;
-	border-radius: 20px;
+	border-radius: var(--radius-2xl);
 	font-size: 0.88rem;
 	font-weight: 600;
 	opacity: 0;
-	transition: opacity 0.3s;
+	transition: opacity var(--transition-normal) ease;
 	pointer-events: none;
 	margin-left: 12px;
 }
@@ -1512,7 +1511,7 @@ body.dark #content nav .profile-menu li a {
 }
 
 #summary {
-	border-radius: 20px;
+	border-radius: var(--radius-xl);
 	overflow: hidden;
 	margin-bottom: 20px;
 }
@@ -1563,7 +1562,7 @@ body.dark .pupil-card-sessions { color: var(--dark-grey); }
 
 .modal-stat-item {
 	background: var(--grey);
-	border-radius: 14px;
+	border-radius: var(--radius-lg);
 	padding: 14px 10px;
 	text-align: center;
 }
@@ -1591,7 +1590,7 @@ body.dark .pupil-card-sessions { color: var(--dark-grey); }
 
 .modal-history-list .history-item {
 	background: var(--light);
-	border-radius: 14px;
+	border-radius: var(--radius-lg);
 	padding: 14px 16px;
 	border-left: 4px solid var(--accent-color);
 	box-shadow: 0 2px 8px rgba(0,0,0,0.06);

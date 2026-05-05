@@ -54,7 +54,7 @@
     position: relative;
     width: 90vw;
     max-width: 900px;
-    border-radius: 32px;
+    border-radius: var(--radius-3xl);
 }
 
 .slider::before,
@@ -96,8 +96,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border-radius: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: var(--radius-xl);
+    transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
     flex-shrink: 0;
     padding: 10px;
     box-sizing: border-box;
@@ -112,16 +112,16 @@
     transform: scale(1.1);
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
     background: rgba(255, 255, 255, 0.15);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
 }
 
 .slide img {
     width: 140px;
     height: 140px;
     object-fit: cover;
-    border-radius: 18px;
+    border-radius: var(--radius-2xl);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s;
+    transition: transform var(--transition-normal) ease;
 }
 
 .slide span {
@@ -132,10 +132,6 @@
     margin-top: 8px;
 }
 
-@keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-200px * 6)); }
-}
 
 .slider-hint {
     color: var(--bg-hint);
@@ -242,16 +238,10 @@
     animation-duration: 10s;
 }
 
-@keyframes flying {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-1000px);
-    }
+.xy-key.xy-highlight {
+  box-shadow: 0 0 18px 6px white;
+  animation: xy-pulse 0.7s ease-in-out infinite alternate;
 }
-
-/* Fireworks  */
 #fireworksCanvas {
     position: fixed;
     top: 0;
@@ -301,7 +291,7 @@
 .xy-song-select .btn-primary {
   width: auto;
   margin-top: 0;
-  border-radius: 24px;
+  border-radius: var(--radius-2xl);
   gap: 12px;
 }
 
@@ -329,7 +319,7 @@
   height: 20px;
   background-color: #d58c3f;
   box-shadow: 1px 4px #a0682e, 1px 1px #a0682e;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   z-index: 0;
 }
 
@@ -345,7 +335,7 @@
 
 .xy-key {
   width: 60px;
-  border-radius: 20px;
+  border-radius: var(--radius-2xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -354,7 +344,7 @@
   font-weight: bold;
   cursor: pointer;
   user-select: none;
-  transition: filter 0.15s, transform 0.1s;
+  transition: filter var(--transition-fast) ease, transform var(--transition-fast) ease;
   position: relative;
   z-index: 10;
 }
@@ -384,16 +374,11 @@
   transform: scaleY(0.97);
 }
 
-@keyframes xy-pulse {
-  from { box-shadow: 0 0 12px 4px white; }
-  to   { box-shadow: 0 0 24px 10px white; }
-}
-
 .xy-mallet {
   position: fixed;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+  border-radius: var(--radius-round);
   background: radial-gradient(circle, white, #cccccc);
   pointer-events: none;
   z-index: 9999;
@@ -410,7 +395,7 @@
   left: 72px;
   width: 10px;
   height: 240px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: #8d8cc5;
   transform: rotate(-20deg);
 }

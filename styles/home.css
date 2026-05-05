@@ -1,3 +1,15 @@
+/* Outer page wrapper — only home.html uses .container */
+.container {
+    background: var(--bg-gradient);
+    border-radius: 16px;
+    padding: 12px;
+    width: calc(100% - 32px);
+    margin: 16px auto;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 .home-container {
             display: flex;
             flex-direction: column;
@@ -98,14 +110,15 @@
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
+            transition: opacity var(--transition-fast) ease, transform var(--transition-fast) ease;
             font-family: var(--font-body);
-            box-shadow: 0 4px 12px var(--shadow-strong);
+            box-shadow: var(--shadow-button);
         }
 
         .tool-btn:hover {
             opacity: 0.88;
             transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
         }
 
         /* Pupil management panel (history page) */
@@ -159,38 +172,6 @@
             flex-shrink: 0;
             border: 2px solid var(--border-color);
         }
-
-        .pupil-name-input {
-            flex: 1;
-            padding: 6px 10px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            font-size: 1rem;
-            font-family: var(--font-body);
-            background: white;
-        }
-
-        .pupil-name-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .add-pupil-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 4px;
-        }
-
-        .add-pupil-row input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            font-size: 1rem;
-            font-family: var(--font-body);
-        }
-
-        .add-pupil-row input:focus { outline: none; border-color: var(--accent-color); }
 
         /* R+ modal */
         .reinforcer-grid {

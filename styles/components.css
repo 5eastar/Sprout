@@ -1,0 +1,383 @@
+/* components.css — Reusable component library.
+   Use these base classes instead of duplicating styles across game.css, phonics.css, etc.
+   All components reference CSS variables from base.css for consistency.
+*/
+
+/* === LAYOUT UTILITIES === */
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass {
+    backdrop-filter: blur(10px);
+    background: var(--bg-grad-glass);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* === CARD COMPONENT === */
+
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-lg);
+    transition: box-shadow var(--transition-normal) ease, transform var(--transition-normal) ease;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.card--shadow {
+    box-shadow: var(--shadow-elevated);
+}
+
+.card--glass {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.card--flat {
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+}
+
+/* === BUTTON COMPONENT ===
+   Base: .btn
+   Variants: .btn--primary, .btn--secondary, .btn--icon, .btn--small, .btn--ghost
+   Modifiers: :hover, :disabled, :active
+*/
+
+.btn {
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease, background-color var(--transition-normal) ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    user-select: none;
+}
+
+.btn:disabled {
+    background: #a0aec0 !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+/* Primary button: full gradient, full width by default */
+.btn--primary {
+    background: var(--bg-gradient);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1.35rem;
+    letter-spacing: 0.7px;
+    width: 100%;
+    margin-top: var(--spacing-lg);
+    box-shadow: var(--shadow-button);
+}
+
+.btn--primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn--primary:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: var(--shadow-button);
+}
+
+/* Secondary button: alt gradient, pill-shaped */
+.btn--secondary {
+    background: var(--bg-gradient-alt);
+    color: #fff;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1.1rem;
+    border-radius: 999px;
+    outline: 2px solid rgba(255, 255, 255, 0.777);
+    outline-offset: -5px;
+    margin: var(--spacing-sm);
+}
+
+.btn--secondary:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+/* Icon button: circular, minimal padding */
+.btn--icon {
+    background: rgba(255, 255, 255, 0.3);
+    color: var(--text-color);
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-round);
+    padding: 0;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-button);
+}
+
+.btn--icon:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Small button: compact sizing */
+.btn--small {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm);
+}
+
+/* Ghost button: transparent, border-based */
+.btn--ghost {
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 1rem;
+}
+
+.btn--ghost:hover:not(:disabled) {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* === BADGE / PILL === */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-color);
+    color: white;
+    border-radius: var(--radius-round);
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 24px;
+    height: 24px;
+}
+
+.badge--success {
+    background: var(--color-success);
+}
+
+.badge--error {
+    background: var(--color-error);
+}
+
+.badge--warning {
+    background: var(--color-warning);
+}
+
+.pill {
+    background: var(--accent-color);
+    color: white;
+    border-radius: var(--radius-round);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* === TYPOGRAPHY COMPONENTS === */
+
+.gradient-text {
+    background: var(--bg-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.text-hint {
+    color: var(--text-hint);
+    font-size: 0.9rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* === FORM COMPONENTS ===
+   Consolidates input/checkbox/slider styling from menu.css, modal.css, layout.css
+*/
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+    color: var(--text-heading);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.form-input,
+.form-select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background: var(--bg-card);
+    transition: border-color var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-input::placeholder {
+    color: var(--text-hint);
+}
+
+.form-checkbox,
+.form-radio {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"],
+.form-radio input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--accent-color);
+}
+
+.form-checkbox label,
+.form-radio label {
+    cursor: pointer;
+    user-select: none;
+    color: var(--text-color);
+}
+
+.form-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border-color);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-round);
+    background: var(--accent-color);
+    cursor: pointer;
+    box-shadow: var(--shadow-button);
+    transition: background var(--transition-normal) ease, box-shadow var(--transition-fast) ease;
+}
+
+.form-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-round);
+    background: var(--accent-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: var(--shadow-button);
+    transition: background var(--transition-normal) ease, box-shadow var(--transition-fast) ease;
+}
+
+.form-slider::-webkit-slider-thumb:hover {
+    background: var(--accent-hover);
+    box-shadow: var(--shadow-hover);
+}
+
+.form-slider::-moz-range-thumb:hover {
+    background: var(--accent-hover);
+    box-shadow: var(--shadow-hover);
+}
+
+/* === VISIBILITY UTILITIES === */
+
+.hidden {
+    display: none !important;
+}
+
+.show {
+    display: block;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.pointer-none {
+    pointer-events: none;
+}
+
+.pointer-auto {
+    pointer-events: auto;
+}
+
+/* === RESPONSIVE BREAKPOINTS ===
+   These can be used with media queries:
+   @media (max-width: var(--bp-tablet)) { ... }
+*/
+:root {
+    --bp-mobile: 480px;
+    --bp-tablet: 768px;
+    --bp-desktop: 1024px;
+}
