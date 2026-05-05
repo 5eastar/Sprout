@@ -215,7 +215,7 @@ class GameCore {
                 const imageSrc = this.currentOptionImages[index];
                 if (imageSrc) {
                     const img = document.createElement('img');
-                    img.src = imageSrc;
+                    img.src = (imageSrc.startsWith('data:') || imageSrc.startsWith('http')) ? imageSrc : (window.ASSET_BASE || '') + imageSrc;
                     img.draggable = false;
                     card.appendChild(img);
                 }
@@ -310,16 +310,17 @@ function ensureReinforcerContainer() {
 
     const container = document.createElement('div');
     container.id = 'reinforcer-container';
+    const ab = window.ASSET_BASE || '';
     container.innerHTML = `
         <div class="balloons">
-            <img src="images/animation/b1.png" alt=""><img src="images/animation/b2.png" alt="">
-            <img src="images/animation/b3.png" alt=""><img src="images/animation/b4.png" alt="">
-            <img src="images/animation/b5.png" alt=""><img src="images/animation/b6.png" alt="">
-            <img src="images/animation/b7.png" alt=""><img src="images/animation/b8.png" alt="">
-            <img src="images/animation/b1.png" alt=""><img src="images/animation/b2.png" alt="">
-            <img src="images/animation/b3.png" alt=""><img src="images/animation/b4.png" alt="">
-            <img src="images/animation/b5.png" alt=""><img src="images/animation/b6.png" alt="">
-            <img src="images/animation/b7.png" alt=""><img src="images/animation/b8.png" alt="">
+            <img src="${ab}images/animation/b1.png" alt=""><img src="${ab}images/animation/b2.png" alt="">
+            <img src="${ab}images/animation/b3.png" alt=""><img src="${ab}images/animation/b4.png" alt="">
+            <img src="${ab}images/animation/b5.png" alt=""><img src="${ab}images/animation/b6.png" alt="">
+            <img src="${ab}images/animation/b7.png" alt=""><img src="${ab}images/animation/b8.png" alt="">
+            <img src="${ab}images/animation/b1.png" alt=""><img src="${ab}images/animation/b2.png" alt="">
+            <img src="${ab}images/animation/b3.png" alt=""><img src="${ab}images/animation/b4.png" alt="">
+            <img src="${ab}images/animation/b5.png" alt=""><img src="${ab}images/animation/b6.png" alt="">
+            <img src="${ab}images/animation/b7.png" alt=""><img src="${ab}images/animation/b8.png" alt="">
         </div>
         <canvas id="fireworksCanvas" style="display:none;"></canvas>
         <canvas id="particleCanvas" style="display:none;"></canvas>

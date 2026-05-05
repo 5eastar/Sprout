@@ -312,7 +312,7 @@ Object.assign(PhonicsGame.prototype, {
 
             const img = document.createElement('img');
             img.src = option.imagePath;
-            img.onerror = () => { img.src = 'images/placeholder.jpg'; };
+            img.onerror = () => { img.src = (window.ASSET_BASE || '') + 'images/placeholder.jpg'; };
             card.appendChild(img);
 
             if (option.isCorrect) {

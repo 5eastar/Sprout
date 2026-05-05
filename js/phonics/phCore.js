@@ -3,7 +3,7 @@
 class PhonicsGame extends GameCore {
     constructor(config) {
         super(config);
-        this.homeUrl = 'pages/phonics-home.html';
+        this.homeUrl = 'phonics-home.html';
 
         this.pupils = config.pupils;
         this.programOrder = config.programOrder;

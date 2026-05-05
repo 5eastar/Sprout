@@ -256,7 +256,7 @@ Object.assign(GameCore.prototype, {
         document.getElementById('skip-to-end-btn')?.addEventListener('click', () => this.skipToEnd());
         document.getElementById('skip-countdown-btn')?.addEventListener('click', () => this.skipCountdown());
         document.getElementById('menu-btn')?.addEventListener('click', () => { window.location.href = this.homeUrl; });
-        document.getElementById('home-btn')?.addEventListener('click', () => { window.location.href = 'home.html'; });
+        document.getElementById('home-btn')?.addEventListener('click', () => { window.location.href = '../home.html'; });
 
         setTimeout(() => {
             document.addEventListener('click', this._boundOutsideClick);

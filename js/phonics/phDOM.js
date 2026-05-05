@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!config) {
         alert('No phonics session configured');
-        window.location.href = 'pages/phonics-home.html';
+        window.location.href = 'phonics-home.html';
         return;
     }
     
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         phonicsGame.setupConfirmButton();
 
         phonicsGame.setupTeacherButton(() => {
-            window.location.href = 'pages/results.html';
+            window.location.href = 'results.html';
         });
 
         await phonicsGame.startProgram();

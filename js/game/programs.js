@@ -70,7 +70,7 @@ class IdentifyGame extends GameCore {
                 const imgs = question.target.images || [];
                 const src = imgs[Math.floor(Math.random() * imgs.length)];
                 if (src) {
-                    qImg.src = src;
+                    qImg.src = (src.startsWith('data:') || src.startsWith('http')) ? src : (window.ASSET_BASE || '') + src;
                     qImg.style.display = 'block';
                 } else {
                     qImg.style.display = 'none';
@@ -262,7 +262,8 @@ class MatchGame extends GameCore {
         parent.innerHTML = '';
         if (this.currentTargetImage) {
             const img = document.createElement('img');
-            img.src = this.currentTargetImage;
+            const ti = this.currentTargetImage;
+            img.src = (ti.startsWith('data:') || ti.startsWith('http')) ? ti : (window.ASSET_BASE || '') + ti;
             img.draggable = false;
             parent.appendChild(img);
             parent.classList.remove('text-drag');
@@ -1015,7 +1016,7 @@ function initStandardGame(fallbackHomeUrl) {
 
     try {
         const config = JSON.parse(sessionStorage.getItem('catsConfig') || sessionStorage.getItem('quizConfig'));
-        const homeUrl = config?.homeUrl || fallbackHomeUrl || 'home.html';
+        const homeUrl = config?.homeUrl || fallbackHomeUrl || '../home.html';
         if (!config) { window.location.href = homeUrl; return; }
 
         const GAME_CLASSES = { find: IdentifyGame, match: MatchGame, compare: TileCompareGame, sort: SortGame, label: LabelGame };
@@ -1044,6 +1045,6 @@ function initStandardGame(fallbackHomeUrl) {
         });
     } catch (error) {
         console.error('Initialization error:', error);
-        window.location.href = fallbackHomeUrl || 'home.html';
+        window.location.href = fallbackHomeUrl || '../home.html';
     }
 }

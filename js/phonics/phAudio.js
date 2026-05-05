@@ -2,7 +2,7 @@
 // Plays audio files for phonemes, falls back to speech synthesis
 
 const PhonemeAudio = {
-    audioPath: 'audio/phonemes/',
+    audioPath: (window.ASSET_BASE || '') + 'audio/phonemes/',
     audioExtension: '.mp3',
     audioCache: {},
 

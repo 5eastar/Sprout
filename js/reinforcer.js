@@ -652,7 +652,7 @@ async function initializePond() {
             if (this.bubbleAudio && !this.bubbleAudio.paused) return; // Prevent overlap
             
             const bubbleNum = Math.floor(Math.random() * 2) + 1; // Random 1-2
-            this.bubbleAudio = new Audio(`audio/sounds/bubble${bubbleNum}.wav`);
+            this.bubbleAudio = new Audio(`${window.ASSET_BASE || ''}audio/sounds/bubble${bubbleNum}.wav`);
             this.bubbleAudio.volume = 1.0;
             this.bubbleAudio.play().catch(e => console.log('Bubble sound failed:', e));
         },
@@ -661,7 +661,7 @@ async function initializePond() {
             if (this.splashAudio && !this.splashAudio.paused) return; // Prevent overlap
             
             const splashNum = Math.floor(Math.random() * 3) + 1; // Random 1-3
-            this.splashAudio = new Audio(`audio/sounds/splash${splashNum}.wav`);
+            this.splashAudio = new Audio(`${window.ASSET_BASE || ''}audio/sounds/splash${splashNum}.wav`);
             this.splashAudio.volume = 1.0;
             this.splashAudio.play().catch(e => console.log('Splash sound failed:', e));
         }
@@ -678,7 +678,7 @@ async function initializePond() {
         if (rainEnabled) {
             // Start rain sound
             if (!rainAudio) {
-                rainAudio = new Audio('audio/sounds/rain.mp3');
+                rainAudio = new Audio((window.ASSET_BASE || '') + 'audio/sounds/rain.mp3');
                 rainAudio.loop = true;
                 rainAudio.volume = 1.0;
             }
@@ -902,7 +902,7 @@ async function initializePond() {
         let lastInteraction = Date.now();
 
         const bgImage = new Image();
-        bgImage.src = './images/animation/snow.jpg';
+        bgImage.src = (window.ASSET_BASE || '') + 'images/animation/snow.jpg';
 
         function resize() {
             width = window.innerWidth;
@@ -1227,14 +1227,17 @@ async function initializePond() {
     }
    
 
-const REINFORCER_SLIDES = [
-    { type: 'balloons',  img: 'images/animation/rBalloon.jpg',   label: 'Balloons'     },
-    { type: 'particles', img: 'images/animation/rParticles.jpg', label: 'Sparkles'     },
-    { type: 'ballpit',   img: 'images/animation/rBallpit.jpg',   label: 'Ball Pit'     },
-    { type: 'pond',      img: 'images/animation/rPond.jpg',      label: 'Pond'         },
-    { type: 'window',    img: 'images/animation/rWindow.jpg',    label: 'Snowy Window' },
-    { type: 'xylophone', img: 'images/animation/rXylophone.jpg', label: 'Xylophone'   },
-];
+const REINFORCER_SLIDES = (() => {
+    const ab = window.ASSET_BASE || '';
+    return [
+        { type: 'balloons',  img: ab + 'images/animation/rBalloon.jpg',   label: 'Balloons'     },
+        { type: 'particles', img: ab + 'images/animation/rParticles.jpg', label: 'Sparkles'     },
+        { type: 'ballpit',   img: ab + 'images/animation/rBallpit.jpg',   label: 'Ball Pit'     },
+        { type: 'pond',      img: ab + 'images/animation/rPond.jpg',      label: 'Pond'         },
+        { type: 'window',    img: ab + 'images/animation/rWindow.jpg',    label: 'Snowy Window' },
+        { type: 'xylophone', img: ab + 'images/animation/rXylophone.jpg', label: 'Xylophone'   },
+    ];
+})();
 
 function populateSliderTracks() {
     const settings = typeof getReinforceSettings === 'function' ? getReinforceSettings() : {};
