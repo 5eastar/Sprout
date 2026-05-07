@@ -102,6 +102,10 @@ const TEXT_COLORS = [
     '#29a1bc', '#e2612a', '#54a0ff', '#079a9a'
 ];
 
+function getPupilPhotoPath(name) {
+    return '../pupils/' + name.split(' ')[0].toLowerCase() + '.jpg';
+}
+
 // Fisher-Yates shuffle (GameCore.shuffleArray delegates to this)
 function shuffleArray(array) {
     const shuffled = [...array];
@@ -154,6 +158,7 @@ function getPupilPhonicsStats(pupilId, phonicsHistory) {
     return { questions, correct };
 }
 
+window.getPupilPhotoPath = getPupilPhotoPath;
 window.escapeHTML = escapeHTML;
 window.downloadCSV = downloadCSV;
 window.getPupilPhonicsStats = getPupilPhonicsStats;

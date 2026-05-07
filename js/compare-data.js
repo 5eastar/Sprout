@@ -517,7 +517,7 @@ function _renderWordPic(t, el, color) {
         el.appendChild(txt);
     } else {
         const img = document.createElement('img');
-        img.src = t.image;
+        img.src = (t.image.startsWith('data:') || t.image.startsWith('http') || t.image.startsWith('file:')) ? t.image : (window.ASSET_BASE || '') + t.image;
         img.style.cssText = 'max-width:85%;max-height:85%;object-fit:contain;border-radius:8px;pointer-events:none;';
         el.appendChild(img);
     }

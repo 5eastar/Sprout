@@ -430,14 +430,15 @@ class ProgramModalManager {
 
             const isTextOnly = stim.textOnly || false;
             const imagesHTML = isTextOnly ? '<p style="color:#666; font-style:italic;">Text-only stimulus (no images)</p>' :
-                stim.images.map((img, i) =>
-                    `<div style="display:inline-block; position:relative; margin:4px;">
-                        <img src="${img}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;" />
+                stim.images.map((img, i) => {
+                    const imgSrc = (img.startsWith('data:') || img.startsWith('http') || img.startsWith('file:')) ? img : (window.ASSET_BASE || '') + img;
+                    return `<div style="display:inline-block; position:relative; margin:4px;">
+                        <img src="${imgSrc}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;" />
                         <button type="button" class="img-remove-btn" data-stim-index="${index}" data-img-index="${i}"
                                 style="position:absolute; top:-5px; right:-5px; background:#e53e3e; color:white; border:none;
                                        border-radius:50%; width:20px; height:20px; cursor:pointer; font-size:12px; line-height:1;">×</button>
-                    </div>`
-                ).join('');
+                    </div>`;
+                }).join('');
 
             stimDiv.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">

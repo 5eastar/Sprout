@@ -215,7 +215,7 @@ class GameCore {
                 const imageSrc = this.currentOptionImages[index];
                 if (imageSrc) {
                     const img = document.createElement('img');
-                    img.src = (imageSrc.startsWith('data:') || imageSrc.startsWith('http')) ? imageSrc : (window.ASSET_BASE || '') + imageSrc;
+                    img.src = (imageSrc.startsWith('data:') || imageSrc.startsWith('http') || imageSrc.startsWith('file:')) ? imageSrc : (window.ASSET_BASE || '') + imageSrc;
                     img.draggable = false;
                     card.appendChild(img);
                 }

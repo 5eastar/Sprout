@@ -95,7 +95,7 @@ function addPupilToSession(pupil) {
     const sessionPupil = {
         pupilId: pupil.id,
         name: pupil.name,
-        photo: phonicsData.photo,
+        photo: getPupilPhotoPath(pupil.name),
         targets: phonicsData.targets || {
             'grapheme-to-phoneme': [],
             'phoneme-to-grapheme': [],
@@ -148,6 +148,7 @@ function renderPupilCard(sessionPupil) {
     card.className = 'pupil-card';
     card.id = sessionPupil.sessionId;
 
+    const firstName = escapeHTML(sessionPupil.name.split(' ')[0]);
     card.innerHTML = `
         <div class="pupil-header">
             <h3>${escapeHTML(sessionPupil.name)}</h3>
@@ -156,23 +157,15 @@ function renderPupilCard(sessionPupil) {
             </button>
         </div>
 
-        <div style="display: flex; gap: 20px; margin-bottom: 20px;">
-            <div>
-                <div class="pupil-photo-upload" onclick="document.getElementById('photo-${sessionPupil.sessionId}').click()">
-                    ${sessionPupil.photo
-                        ? `<img src="${sessionPupil.photo}" alt="${escapeHTML(sessionPupil.name)}">`
-                        : '<div class="placeholder">📷</div>'}
-                </div>
-                <input type="file" id="photo-${sessionPupil.sessionId}" accept="image/*" style="display: none;"
-                       onchange="handlePhotoUpload('${sessionPupil.sessionId}', this)">
+        <div style="margin-bottom:20px;">
+            <div class="pupil-photo-upload" style="cursor:default;" id="photo-wrap-${sessionPupil.sessionId}">
+                <img src="${sessionPupil.photo}" alt="${escapeHTML(sessionPupil.name)}"
+                     onerror="document.getElementById('photo-wrap-${sessionPupil.sessionId}').style.display='none'">
             </div>
-
-            <div style="flex: 1;">
-                <p style="color: var(--text-muted); margin-bottom: 10px;">
-                    Select target letters for each program (up to 4 per program):
-                </p>
-            </div>
+            <p style="font-weight:600;margin-top:8px;color:var(--dark);">${firstName}</p>
         </div>
+
+        <p style="color:var(--text-muted);margin-bottom:15px;">Select target letters for each program (up to 4 per program):</p>
 
         <!-- Produce Phoneme -->
         <div class="program-targets">
@@ -270,23 +263,6 @@ function updateTargets(sessionId, programType) {
     updateStartButton();
 }
 
-function handlePhotoUpload(sessionId, input) {
-    const file = input.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        const sessionPupil = sessionPupils.find(p => p.sessionId === sessionId);
-        if (sessionPupil) {
-            sessionPupil.photo = e.target.result;
-
-            // Update the display
-            const photoDiv = input.previousElementSibling;
-            photoDiv.innerHTML = `<img src="${e.target.result}" alt="${sessionPupil.name}">`;
-        }
-    };
-    reader.readAsDataURL(file);
-}
 
 function removePupilFromSession(sessionId) {
     if (!confirm('Remove this pupil from the session?')) return;
@@ -400,7 +376,7 @@ function startSession() {
 // Make functions globally available for inline event handlers
 window.removePupilFromSession = removePupilFromSession;
 window.updateTargets = updateTargets;
-window.handlePhotoUpload = handlePhotoUpload;
+
 window.toggleRepeat = toggleRepeat;
 window.togglePhaseGroup = togglePhaseGroup;
 window.toggleFieldSize = toggleFieldSize;

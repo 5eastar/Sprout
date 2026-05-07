@@ -330,3 +330,22 @@ function deletePhonicsSession(sessionId) {
     const history = getPhonicsHistory().filter(s => s.id !== sessionId);
     storage.set(PHONICS_HISTORY_KEY, history);
 }
+
+// Remove duplicate quiz sessions (same pupil + totalTime + results), keeping the earliest.
+// Returns the number of duplicates removed.
+function deduplicateQuizHistory() {
+    const history = getQuizHistory();
+    const sorted = [...history].sort((a, b) => new Date(a.date) - new Date(b.date));
+    const seen = new Set();
+    const toKeep = [];
+    for (const record of sorted) {
+        const key = `${record.pupilId}|${record.totalTime}|${JSON.stringify(record.results)}`;
+        if (!seen.has(key)) {
+            seen.add(key);
+            toKeep.push(record);
+        }
+    }
+    const removed = history.length - toKeep.length;
+    if (removed > 0) storage.set(HISTORY_KEY, toKeep);
+    return removed;
+}

@@ -70,7 +70,7 @@ class IdentifyGame extends GameCore {
                 const imgs = question.target.images || [];
                 const src = imgs[Math.floor(Math.random() * imgs.length)];
                 if (src) {
-                    qImg.src = (src.startsWith('data:') || src.startsWith('http')) ? src : (window.ASSET_BASE || '') + src;
+                    qImg.src = (src.startsWith('data:') || src.startsWith('http') || src.startsWith('file:')) ? src : (window.ASSET_BASE || '') + src;
                     qImg.style.display = 'block';
                 } else {
                     qImg.style.display = 'none';
@@ -263,7 +263,7 @@ class MatchGame extends GameCore {
         if (this.currentTargetImage) {
             const img = document.createElement('img');
             const ti = this.currentTargetImage;
-            img.src = (ti.startsWith('data:') || ti.startsWith('http')) ? ti : (window.ASSET_BASE || '') + ti;
+            img.src = (ti.startsWith('data:') || ti.startsWith('http') || ti.startsWith('file:')) ? ti : (window.ASSET_BASE || '') + ti;
             img.draggable = false;
             parent.appendChild(img);
             parent.classList.remove('text-drag');

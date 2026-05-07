@@ -3,9 +3,9 @@
     background: var(--bg-gradient);
     border-radius: 16px;
     padding: 12px;
-    width: calc(100% - 32px);
+    width: calc(100% - 48px);
     margin: 16px auto;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -105,8 +105,9 @@
             padding: 10px 20px;
             border-radius: 24px;
             border: none;
-            background: var(--grad1);
+            background: var(--bg-gradient);
             color: #fff;
+            text-decoration: none;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;

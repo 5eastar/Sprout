@@ -95,9 +95,9 @@ Object.assign(PhonicsGame.prototype, {
             btn.className = 'pupil-choose-btn';
 
             const img = document.createElement('img');
-            img.src = pupil.photo || '';
+            img.src = pupil.photo;
             img.alt = pupil.name;
-            img.style.display = pupil.photo ? 'block' : 'none';
+            img.onerror = () => img.style.display = 'none';
 
             const label = document.createElement('span');
             label.textContent = pupil.name;
@@ -141,12 +141,9 @@ Object.assign(PhonicsGame.prototype, {
         if (toggle) toggle.style.display = 'none';
         if (pupilIndicator) pupilIndicator.style.display = 'none';
 
-        if (pupil.photo) {
-            photoEl.src = pupil.photo;
-            photoEl.style.display = 'block';
-        } else {
-            photoEl.style.display = 'none';
-        }
+        photoEl.onerror = () => photoEl.style.display = 'none';
+        photoEl.style.display = 'block';
+        photoEl.src = pupil.photo;
 
         nameEl.textContent = pupil.name;
         turnScreen.style.display = 'flex';

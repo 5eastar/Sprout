@@ -61,6 +61,27 @@
 
                 <div id="pupil-select-grid" class="pupil-cards-grid"></div>
             </div>
+
+            <!-- Phonics Data Panel -->
+            <div class="bottom-section" id="phonics-data-section" style="margin-top: 24px;">
+                <!-- Overview (default view) -->
+                <div id="phonics-overview-view">
+                    <div class="panel-header-row">
+                        <h2>Phonics Data</h2>
+                    </div>
+                    <div id="phonics-overview" class="selection-grid"></div>
+                </div>
+
+                <!-- History list view -->
+                <div id="phonics-history-view" class="hidden">
+                    <div class="panel-header-row" style="margin-bottom:12px;">
+                        <button class="btn-secondary" onclick="showPhonicsOverview()" style="padding:6px 14px; font-size:0.9rem;">← Back</button>
+                        <h2 style="flex:1; text-align:right; margin:0; border:none; padding:0; font-size:1.1rem; color:var(--accent-color);">All Phonics Sessions</h2>
+                    </div>
+                    <div id="phonics-summary-stats"></div>
+                    <div id="phonics-history-list" class="modal-history-list" style="padding:0; margin-top:12px;"></div>
+                </div>
+            </div>
         </main>
     </section>
 
@@ -90,8 +111,7 @@
                     <button class="btn-secondary" onclick="saveRename()">Save Name</button>
                 </div>
                 <div class="edit-row">
-                    <button class="btn-secondary" onclick="triggerPhotoUpload()">📷 Change Photo</button>
-                    <input type="file" id="modal-photo-input" accept="image/*" style="display:none" onchange="handleModalPhoto(this)">
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">To add a photo, save <strong>firstname.jpg</strong> (lowercase) in the <strong>pupils/</strong> folder, then reload the page.</p>
                     <button class="btn-danger" onclick="confirmDeletePupil()">🗑️ Delete Pupil</button>
                 </div>
             </div>

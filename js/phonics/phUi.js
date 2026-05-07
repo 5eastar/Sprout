@@ -71,11 +71,10 @@ Object.assign(PhonicsGame.prototype, {
 
         nameEl.textContent = `${pupil.name}'s turn`;
 
-        if (pupil.photo && photoEl) {
-            photoEl.src = pupil.photo;
+        if (photoEl) {
+            photoEl.onerror = () => photoEl.style.display = 'none';
             photoEl.style.display = 'block';
-        } else if (photoEl) {
-            photoEl.style.display = 'none';
+            photoEl.src = pupil.photo;
         }
 
         indicator.style.display = 'flex';

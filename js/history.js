@@ -5,7 +5,9 @@ let editModeActive = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('viewPupilId');
+    deduplicateQuizHistory();
     renderPupilGrid();
+    renderPhonicsSection();
 });
 
 // ========== PUPIL GRID ==========
@@ -21,12 +23,10 @@ function renderPupilGrid() {
     }
 
     grid.innerHTML = pupils.map(pupil => {
-        const photo = getPupilPhonicsData(pupil.id)?.photo;
         const totalSessions = getPupilHistory(pupil.id).length + getPupilPhonicsHistory(pupil.id).length;
-
-        const photoHTML = photo
-            ? `<img src="${photo}" alt="${pupil.name}" class="pupil-card-photo">`
-            : `<div class="pupil-card-initials">${pupil.name[0].toUpperCase()}</div>`;
+        const photoPath = getPupilPhotoPath(pupil.name);
+        const initial = pupil.name[0].toUpperCase();
+        const photoHTML = `<img src="${photoPath}" alt="${pupil.name}" class="pupil-card-photo" onerror="this.style.display='none';this.nextElementSibling.style.removeProperty('display')"><div class="pupil-card-initials" style="display:none" title="Save ${pupil.name.split(' ')[0].toLowerCase()}.jpg in the pupils/ folder to add a photo">${initial}</div>`;
 
         return `
             <div class="pupil-select-card" onclick="openPupilModal('${pupil.id}')">
@@ -66,7 +66,6 @@ async function openPupilModal(pupilId) {
     editModeActive = false;
 
     const modal = document.getElementById('pupil-modal');
-    const photo = getPupilPhonicsData(pupilId)?.photo;
 
     // Header
     document.getElementById('modal-pupil-name').textContent = pupil.name;
@@ -74,15 +73,15 @@ async function openPupilModal(pupilId) {
 
     const photoEl = document.getElementById('modal-pupil-photo');
     const initialsEl = document.getElementById('modal-pupil-initials');
-    if (photo) {
-        photoEl.src = photo;
-        photoEl.style.display = '';
-        initialsEl.style.display = 'none';
-    } else {
+    initialsEl.textContent = pupil.name[0].toUpperCase();
+    initialsEl.title = `Save ${pupil.name.split(' ')[0].toLowerCase()}.jpg in the pupils/ folder to add a photo`;
+    photoEl.style.display = '';
+    initialsEl.style.display = 'none';
+    photoEl.onerror = () => {
         photoEl.style.display = 'none';
-        initialsEl.textContent = pupil.name[0].toUpperCase();
         initialsEl.style.display = '';
-    }
+    };
+    photoEl.src = getPupilPhotoPath(pupil.name);
 
     // Reset edit mode
     document.getElementById('modal-edit-panel').classList.add('hidden');
@@ -129,34 +128,6 @@ function saveRename() {
     renderPupilGrid();
 }
 
-function triggerPhotoUpload() {
-    document.getElementById('modal-photo-input').click();
-}
-
-function handleModalPhoto(input) {
-    const file = input.files[0];
-    if (!file || !currentPupilId) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        const img = new Image();
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = 200; canvas.height = 200;
-            const ctx = canvas.getContext('2d');
-            const size = Math.min(img.width, img.height);
-            ctx.drawImage(img, (img.width - size) / 2, (img.height - size) / 2, size, size, 0, 0, 200, 200);
-            const base64 = canvas.toDataURL('image/jpeg', 0.8);
-            updatePupilPhonicsData(currentPupilId, { photo: base64 });
-            const photoEl = document.getElementById('modal-pupil-photo');
-            photoEl.src = base64;
-            photoEl.style.display = '';
-            document.getElementById('modal-pupil-initials').style.display = 'none';
-            renderPupilGrid();
-        };
-        img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-}
 
 function confirmDeletePupil() {
     if (!currentPupilId) return;
@@ -291,7 +262,7 @@ async function loadModalContent(pupil) {
 
 function navigateToResults(data) {
     sessionStorage.setItem('quizResults', JSON.stringify(data));
-    sessionStorage.removeItem('quizResultsSaved');
+    sessionStorage.setItem('quizResultsSaved', 'true');
     window.location.href = 'results.html';
 }
 
@@ -351,7 +322,7 @@ async function exportAllToCSV(pupil) {
         csv += `${'='.repeat(50)}\nIDENTIFY QUIZZES\n${'='.repeat(50)}\n\n`;
         identifyHistory.forEach((quiz, i) => {
             const programName = allPrograms[quiz.config?.programIndex]?.name || 'Unknown Program';
-            csv += `Quiz ${i + 1} - ${new Date(quiz.date).toLocaleString()}\n`;
+            csv += `Quiz ${i + 1} - ${formatDate(quiz.date)}\n`;
             csv += `Program,${programName}\nScore,${quiz.summary.correct}/${quiz.summary.totalQuestions}\n`;
             csv += `Accuracy,${quiz.summary.accuracy}%\nDuration,${formatTime(quiz.totalTime)}\n\n`;
             csv += 'Question,Target,Score,Response Time (s)\n';
@@ -369,7 +340,7 @@ async function exportAllToCSV(pupil) {
             const pupilData = session.pupils.find(p => p.pupilId === pupil.id);
             const results = pupilData?.results || [];
             const correct = countCorrect(results);
-            csv += `Session ${i + 1} - ${new Date(session.date).toLocaleString()}\n`;
+            csv += `Session ${i + 1} - ${formatDate(session.date)}\n`;
             csv += `Your Score,${correct}/${results.length}\nSession Total,${session.summary.correct}/${session.summary.totalQuestions}\n\n`;
             if (results.length > 0) {
                 csv += 'Question,Program,Target,Score,Response Time (s)\n';
@@ -413,13 +384,101 @@ function confirmDeleteAllSessions() {
     loadModalContent(pupil);
 }
 
+// ========== PHONICS DATA SECTION ==========
+
+function renderPhonicsSection() {
+    const history = getPhonicsHistory();
+    const overview = document.getElementById('phonics-overview');
+    const count = history.length;
+
+    if (count === 0) {
+        overview.innerHTML = '<p class="empty-state">No phonics sessions recorded yet.</p>';
+        return;
+    }
+
+    overview.innerHTML = `
+        <div class="selection-card phonics-selection-card" onclick="showPhonicsHistory()" role="button" tabindex="0" aria-label="View ${count} phonics sessions">
+            <h3>${count} Session${count !== 1 ? 's' : ''}</h3>
+            <p>View Phonics History</p>
+        </div>
+    `;
+}
+
+function showPhonicsHistory() {
+    document.getElementById('phonics-overview-view').classList.add('hidden');
+    document.getElementById('phonics-history-view').classList.remove('hidden');
+    renderPhonicsHistoryList();
+}
+
+function showPhonicsOverview() {
+    document.getElementById('phonics-history-view').classList.add('hidden');
+    document.getElementById('phonics-overview-view').classList.remove('hidden');
+    renderPhonicsSection();
+}
+
+function renderPhonicsHistoryList() {
+    const history = getPhonicsHistory();
+    const pupils = getAllPupils();
+    const pupilMap = Object.fromEntries(pupils.map(p => [p.id, p.name]));
+
+    const totalSessions = history.length;
+    const totalCorrect = history.reduce((s, sess) => s + (sess.summary?.correct || 0), 0);
+    const totalQuestions = history.reduce((s, sess) => s + (sess.summary?.totalQuestions || 0), 0);
+    const overallAccuracy = calculateAccuracy(totalCorrect, totalQuestions);
+
+    document.getElementById('phonics-summary-stats').innerHTML = `
+        <div class="modal-stats-grid" style="max-width:500px; margin:0 auto 4px;">
+            <div class="modal-stat-item">
+                <div class="modal-stat-value">${totalSessions}</div>
+                <div class="modal-stat-label">Total Sessions</div>
+            </div>
+            <div class="modal-stat-item">
+                <div class="modal-stat-value">${totalCorrect}/${totalQuestions}</div>
+                <div class="modal-stat-label">Total Correct</div>
+            </div>
+            <div class="modal-stat-item">
+                <div class="modal-stat-value">${overallAccuracy}%</div>
+                <div class="modal-stat-label">Overall Accuracy</div>
+            </div>
+        </div>
+    `;
+
+    const trashIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z"></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path></svg>`;
+    const sorted = [...history].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    let html = '';
+    sorted.forEach((session, idx) => {
+        const sessionNum = totalSessions - idx;
+        const pupilNames = session.pupils.map(p => pupilMap[p.pupilId] || 'Unknown').join(', ');
+        html += `
+            <div class="history-item phonics-item" style="margin:0;">
+                <button class="session-trash-btn" onclick="confirmDeletePhonicsOverviewSession('${session.id}')" title="Delete session">${trashIcon}</button>
+                <div class="history-type-badge phonics">Phonics</div>
+                <h3>Session ${sessionNum} — ${formatDate(session.date)}</h3>
+                <p><strong>Score:</strong> ${session.summary.correct}/${session.summary.totalQuestions} (${session.summary.accuracy}%)</p>
+                <p><strong>Pupils:</strong> ${pupilNames}</p>
+                <div style="padding:8px 0 0;">
+                    <button class="btn-secondary" onclick="viewPhonicsSession('${session.id}')">View Full Session</button>
+                </div>
+            </div>
+        `;
+    });
+
+    document.getElementById('phonics-history-list').innerHTML = html || '<p class="empty-state">No sessions recorded.</p>';
+}
+
+function confirmDeletePhonicsOverviewSession(sessionId) {
+    if (!confirm('Delete this entire phonics session for ALL pupils?\n\nThis cannot be undone.')) return;
+    deletePhonicsSession(sessionId);
+    renderPhonicsHistoryList();
+}
+
 // expose for global onclick handlers
 window.openPupilModal = openPupilModal;
 window.closePupilModal = closePupilModal;
 window.toggleEditMode = toggleEditMode;
 window.saveRename = saveRename;
-window.triggerPhotoUpload = triggerPhotoUpload;
-window.handleModalPhoto = handleModalPhoto;
+
 window.confirmDeletePupil = confirmDeletePupil;
 window.viewQuizDetails = viewQuizDetails;
 window.viewPhonicsDetails = viewPhonicsDetails;
@@ -429,3 +488,6 @@ window.confirmDeleteSession = confirmDeleteSession;
 window.confirmDeletePhonicsSession = confirmDeletePhonicsSession;
 window.confirmDeleteEntirePhonicsSession = confirmDeleteEntirePhonicsSession;
 window.confirmDeleteAllSessions = confirmDeleteAllSessions;
+window.showPhonicsHistory = showPhonicsHistory;
+window.showPhonicsOverview = showPhonicsOverview;
+window.confirmDeletePhonicsOverviewSession = confirmDeletePhonicsOverviewSession;
